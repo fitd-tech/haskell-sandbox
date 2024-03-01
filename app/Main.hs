@@ -1,5 +1,7 @@
+-- https://learn-haskell.blog/
 module Main where
 
+-- I suppose we'll just wrestle with names in this file until we learn about modules :D
 main :: IO ()
 -- 3.1
 -- main = putStrLn "<html><body>Hello, Haskell!</body></html>"
@@ -63,4 +65,42 @@ myHtml = makeHtml_3_2 "Learn Haskell by building a blog generator" "Haskell tuto
 -- myHtml = makeHtml_3_2 "Learn Haskell by building a blog generator" (h1_3_2_ "Haskell tutorial" <> p_3_2_ "This isn't a link yet but: https://learn-haskell.blog/")
 -- This method is more modular, but I get the idea
 
-main = putStrLn myHtml
+-- main = putStrLn myHtml
+
+-- 3.4
+newtype Html = Html String
+newtype Structure = Structure String
+
+p_3_4_ :: String -> Structure
+p_3_4_ = Structure . el "p"
+-- "Pen and paper" type checking:
+-- Type of .:
+-- (.) :: (b -> c) -> (a -> b) -> (a -> c)
+-- Type of Structure:
+-- Structure :: String -> Structure
+-- Type of el "p":
+-- el "p" :: String -> String
+-- . expects two arguments, so we are matching the requirements so far
+-- Match String -> Structure with b -> c
+-- b ~ String
+-- c ~ Structure
+-- Match String -> String with a -> b
+-- a ~ String
+-- b ~ String (but we knew that already)
+-- So the matched type looks like:
+-- (.) :: (String -> Structure) -> (String -> String) -> (String -> Structure)
+-- So the expression type is:
+-- Structure . el "p" :: String -> Structure
+-- which Haskell knows and our tooltips tell us, but this helps us debug the type checker when we get an error
+
+-- Note block regarding parametrically polymorphic functions (aka generics):
+-- Each instance of a function has its own type variables that can share names without conflicting
+-- (I need to understand how to convert these values first in order to test this)
+id a = a
+-- This should convert a character to an integer
+ord character = character
+chr integer = integer
+incrementChar c = chr (ord (id c) + id 1)
+-- Then the note wants us to try doing this with a function that's not at the top level to show it doesn't work.
+
+main = putStrLn ""

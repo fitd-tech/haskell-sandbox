@@ -65,11 +65,13 @@ myHtml = makeHtml_3_2 "Learn Haskell by building a blog generator" "Haskell tuto
 -- myHtml = makeHtml_3_2 "Learn Haskell by building a blog generator" (h1_3_2_ "Haskell tutorial" <> p_3_2_ "This isn't a link yet but: https://learn-haskell.blog/")
 -- This method is more modular, but I get the idea
 
-main = putStrLn myHtml
+-- main = putStrLn myHtml
 
 -- 3.4
-newtype Html = Html String
-newtype Structure = Structure String
+
+-- This is what we were told was the proper append_ definition...but see below for the REAL proper one!
+-- append_ :: Structure -> Structure -> Structure
+-- append_ (Structure a) (Structure b) = Structure (a <> b)
 
 p_3_4_ :: String -> Structure
 p_3_4_ = Structure . el "p"
@@ -105,11 +107,48 @@ id a = a
 -- Then the note wants us to try doing this with a function that's not at the top level to show it doesn't work:
 --incrementCharFail func c = chr (ord (func c) + func 1)
 
-append_ :: Structure -> Structure -> Structure
-append_ (Structure a) (Structure b) = Structure (a <> b)
+-- The section that prompted us to come up with the below is aptly called "The rest of the owl"
+-- and there was no way I was going to infer this in a beginner Haskell tutorial.
+-- So I'm just typing it all out to start, I guess?
+
+main = putStrLn (render myHtml_3_4)
+
+myHtml_3_4 =
+  html_3_4_
+    "My title"
+    (append_
+      (h1_3_4_ "Heading")
+      (append_
+        (p_3_4_ "Paragraph #1")
+        (p_3_4_ "Paragraph #2")
+      )
+    )
+
+newtype Html = Html String
+newtype Structure = Structure String
+type Title = String
+
+html_3_4_ title content =
+  Html
+    (el_3_4_ "html"
+      (el_3_4_ "head" (el_3_4_ "title" title)
+        <> el_3_4_ "body" (getStructureString content)
+      )
+    )
+
+-- p_3_4_ is defined above, where we worked out the type matching
+h1_3_4_ = Structure . el_3_4_ "h1"
+el_3_4_ tag content = "<" <> tag <> ">" <> content <> "</" <> tag <> ">"
+
+
+
+append_ c1 c2 = Structure (getStructureString c1 <> getStructureString c2)
+getStructureString content =
+  case content of
+    Structure str -> str
 render :: Html -> String
 render html =
   case html of
     Html str -> str
 
--- main = putStrLn ""
+-- Whew, it works. Now we get to escape this naming mess with modules!

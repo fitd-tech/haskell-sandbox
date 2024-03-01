@@ -60,12 +60,12 @@ makeHtml_3_2 title heading bodyText = html_3_2_ (head_3_2_ (title_3_2_ title) <>
 -- Let's see if this works using lambdas ✅
 -- makeHtml_3_2 = \title -> \heading -> \bodyText -> html_3_2_ (head_3_2_ (title_3_2_ title) <> body_3_2_ (h1_3_2_ heading <> p_3_2_ bodyText))
 myHtml :: String
-myHtml = makeHtml_3_2 "Learn Haskell by building a blog generator" "Haskell tutorial" "This isn't a link yet but: https://learn-haskell.blog/"
+myHtml = makeHtml_3_2 "Learn Haskell by building a blog generator" "Haskell tutorial" "This isn't a link yet, but maybe it will be: https://learn-haskell.blog/"
 -- The solution wants us to leave makeHtml_3_2 with only the two parameters (title, content) and format the the content here like this:
 -- myHtml = makeHtml_3_2 "Learn Haskell by building a blog generator" (h1_3_2_ "Haskell tutorial" <> p_3_2_ "This isn't a link yet but: https://learn-haskell.blog/")
 -- This method is more modular, but I get the idea
 
--- main = putStrLn myHtml
+main = putStrLn myHtml
 
 -- 3.4
 newtype Html = Html String
@@ -96,11 +96,20 @@ p_3_4_ = Structure . el "p"
 -- Note block regarding parametrically polymorphic functions (aka generics):
 -- Each instance of a function has its own type variables that can share names without conflicting
 -- (I need to understand how to convert these values first in order to test this)
+id :: p -> p
 id a = a
 -- This should convert a character to an integer
-ord character = character
-chr integer = integer
-incrementChar c = chr (ord (id c) + id 1)
--- Then the note wants us to try doing this with a function that's not at the top level to show it doesn't work.
+--ord character = character
+--chr integer = integer
+--incrementChar c = chr (ord (id c) + id 1)
+-- Then the note wants us to try doing this with a function that's not at the top level to show it doesn't work:
+--incrementCharFail func c = chr (ord (func c) + func 1)
 
-main = putStrLn ""
+append_ :: Structure -> Structure -> Structure
+append_ (Structure a) (Structure b) = Structure (a <> b)
+render :: Html -> String
+render html =
+  case html of
+    Html str -> str
+
+-- main = putStrLn ""

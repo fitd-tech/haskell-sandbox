@@ -62,7 +62,7 @@ executable sandbox
     main-is:          Main.hs
 
     -- Modules included in this executable, other than Main.
-    other-modules:    Html, Html.Internal
+    other-modules:    Html, Html.Internal, Exercises, Exercises.Exercise_4_1, Markup, Markup.Markup
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:

@@ -9,6 +9,7 @@ replicate_ size value =
     then []
     else value : replicate_ (size - 1) value
 
+-- It's fitting that in 4.3 we learn about show (https://hackage.haskell.org/package/base-4.19.1.0/docs/Text-Show.html#t:Show) and type classes
 boolToString :: Bool -> String
 boolToString x =
   if x

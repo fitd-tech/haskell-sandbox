@@ -33,8 +33,13 @@ code_ = Structure . el "pre" . escape
 el :: String -> String -> String
 el tag content = "<" <> tag <> ">" <> content <> "</" <> tag <> ">"
 
-append_ :: Structure -> Structure -> Structure
-append_ c1 c2 = Structure (getStructureString c1 <> getStructureString c2)
+-- Replace with Semigroup in 4.3
+-- append_ :: Structure -> Structure -> Structure
+-- append_ c1 c2 = Structure (getStructureString c1 <> getStructureString c2)
+
+instance Semigroup Structure where
+  (<>) c1 c2 =
+    Structure (getStructureString c1 <> getStructureString c2)
 
 getStructureString :: Structure -> String
 getStructureString content =

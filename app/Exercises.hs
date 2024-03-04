@@ -5,6 +5,7 @@ module Exercises
   , exercise_4_1_4
   , exercise_4_2_generalRecursion
   , exercise_4_2_mutualRecursion
+  , exercise_4_2_partialFunctions
   )
   where
 

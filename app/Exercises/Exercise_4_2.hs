@@ -33,3 +33,21 @@ isOdd n =
     else isEven (n - 1)
 
 exercise_4_2_mutualRecursion = (putStrLn . boolToString) (isEven 56)
+
+-- Partial Functions
+-- For this section, let's at least try to handle the obvious gap in our function input coverage above
+isEvenMoreComplete n =
+  if n == 0
+    then True
+  else if n < 0
+    then isOddMoreComplete (n + 1)
+    else isOddMoreComplete (n - 1)
+
+isOddMoreComplete n =
+  if n == 0
+    then False
+  else if n < 0
+    then isEvenMoreComplete (n + 1)
+    else isEvenMoreComplete (n - 1)
+
+exercise_4_2_partialFunctions = (putStrLn . boolToString) (isOddMoreComplete (-56))

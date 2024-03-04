@@ -5,7 +5,7 @@ import Markup
 main :: IO ()
 -- main = putStrLn (render myhtml)
 -- Call this when we want to print some independent exercise result
-main = exercise_4_2_mutualRecursion
+main = exercise_4_2_partialFunctions
 
 myhtml :: Html
 myhtml =

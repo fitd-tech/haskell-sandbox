@@ -3,9 +3,9 @@ import Exercises
 import Markup
 
 main :: IO ()
-main = putStrLn (render myhtml)
+-- main = putStrLn (render myhtml)
 -- Call this when we want to print some independent exercise result
--- main = exercise_4_2_generalRecursion
+main = exercise_4_2_mutualRecursion
 
 myhtml :: Html
 myhtml =
